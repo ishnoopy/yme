@@ -47,7 +47,8 @@ export async function handleWebSocketConnection(app: Hono) {
 					try {
 						const message = JSON.parse(event.data as string);
 
-						console.log("message type", message.type);
+						console.log("WebSocket: Message received:", message);
+						console.log("WebSocket: Message type:", message.type);
 
 						switch (message.type) {
 							case "notification":
