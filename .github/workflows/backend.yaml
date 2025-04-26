@@ -51,20 +51,20 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Copy docker compose file to server
-        uses: appleboy/scp-action@v0.1.1
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: docker-compose.production.yaml
           target: ~/opt/yme/docker-compose.yaml
     
       - name: SSH and deploy to server
-        uses: appleboy/ssh-action@v0.1.1
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/opt/yme
             docker compose pull
