@@ -1,0 +1,117 @@
+#DOCU: This file is used to run the frontend and backend in VPS using docker compose
+#Pre-requisites: 
+# Image should be uploaded to docker hub
+# env variables should be set in the VPS 
+
+services:
+  pg:
+    image: postgres:16-alpine
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    user: "5050:5050"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  backend:
+    image: ishnoopy/yme-backend:latest
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    restart: unless-stopped
+    depends_on:
+      pg:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - '${PORT}:3001'
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT}
+      - SERVICE_NAME=${SERVICE_NAME}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - PGADMIN_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_PORT=${PGADMIN_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+      - ENABLE_LOGS=${ENABLE_LOGS}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@pg:5432/yme
+    networks:
+      - app-network
+
+  frontend:
+    image: ishnoopy/yme-frontend:latest
+    platform: linux/amd64
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - '${VITE_PORT}:80'
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+      - VITE_DOMAIN=${VITE_DOMAIN}
+      - VITE_APP_NAME=${VITE_APP_NAME}
+      - VITE_SOCKET_BASE_URL=${VITE_SOCKET_BASE_URL}
+      - VITE_PORT=${VITE_PORT}
+    entrypoint: ["/entrypoint.sh"]
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  pgadmin_data:

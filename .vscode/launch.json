@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Backend",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      // Use pnpm directly with exec to ensure it uses local node_modules
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["exec", "env-cmd", "-f", ".env.local", "tsx", "watch", "src/index.ts"],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "sourceMaps": true
+    }
+  ]
+}

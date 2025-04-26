@@ -1,0 +1,30 @@
+name: yme
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+    ports:
+      - '${PORT}:3001'
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT}
+      - SERVICE_NAME=${SERVICE_NAME}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@pg:5432/yme
+      - PGADMIN_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_PORT=${PGADMIN_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+      - ENABLE_LOGS=${ENABLE_LOGS}
+    image: ishnoopy/yme-backend:latest  # Move this inside the backend service
+
+networks:
+  default:
+    driver: bridge

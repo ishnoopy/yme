@@ -1,0 +1,65 @@
+name: yme
+
+services:
+  pg:
+    image: postgres:15.3-alpine
+    ports:
+      - '${DB_PORT}:5432'
+    volumes:
+    #DOCU: The data from /var/lib/postgresql/data is persisted in the ./volumes/databases/pg/data directory in the local directory (relative to where your docker compose file is)
+      - ./volumes/databases/pg/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+  # pg admin
+  pgadmin:
+    image: dpage/pgadmin4:6
+    ports:
+      - '${PGADMIN_PORT}:5050'
+    volumes:
+      - ./volumes/databases/pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_LISTEN_PORT: 5050
+    
+    depends_on:
+      - pg
+  
+  # redis
+  redis:
+    image: redis:7.4.1-alpine
+    environment:
+      REDIS_PORT: ${REDIS_PORT}
+    ports:
+      - '${REDIS_PORT}:6379'
+    volumes:
+      - ./volumes/databases/redis/data:/data
+    depends_on:
+      - pg
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '${PORT}:3001'
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT}
+      - SERVICE_NAME=${SERVICE_NAME}
+      - LOG_LEVEL=${LOG_LEVEL}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@pg:5432/yme
+      - PGADMIN_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_PASSWORD=${PGADMIN_PASSWORD}
+      - PGADMIN_PORT=${PGADMIN_PORT}
+      - REDIS_PORT=${REDIS_PORT}
+      - ENABLE_LOGS=${ENABLE_LOGS}
+    
+    depends_on:
+      - pg
+      - redis

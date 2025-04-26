@@ -1,0 +1,18 @@
+# This file is used to build the images for the frontend and backend in a single step to be uploaded to docker hub
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+    image: ishnoopy/yme-frontend:latest
+      
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+    image: ishnoopy/yme-backend:latest
