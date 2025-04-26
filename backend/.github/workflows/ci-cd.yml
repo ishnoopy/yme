@@ -16,14 +16,17 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend  # Add this to set the working directory
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup QEMU # For multi-architecture builds as we are building for arm64
+      - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
 
-      - name: Setup Docker Buildx # For multi-architecture builds as we are building for arm64
+      - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
@@ -35,6 +38,7 @@ jobs:
       - name: Build and push image to Docker Hub
         uses: docker/build-push-action@v5
         with:
+          context: backend  # Add this to specify build context
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/backend:latest
           platforms: linux/arm64,linux/amd64
@@ -42,6 +46,9 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend  # Add this to set the working directory
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -52,8 +59,9 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          source: ../../docker-compose.production.yaml
+          source: docker-compose.production.yaml
           target: ~/opt/yme/docker-compose.yaml
+          strip_components: 1  # Add this to handle the path correctly
     
       - name: SSH and deploy to server
         uses: appleboy/ssh-action@v0.1.1
@@ -67,5 +75,3 @@ jobs:
             docker rmi $(docker images -f "dangling=true" -q)
             docker compose up -d
             echo "Backend deployment successful"
-        
-        
