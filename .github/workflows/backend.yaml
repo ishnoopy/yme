@@ -62,8 +62,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.production.yaml"
-          target: "/root/docker"
+          source: "docker/docker-compose.yaml"
+          target: "/root/docker/yme"
           strip_components: 0
           overwrite: true
           debug: true
