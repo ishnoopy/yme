@@ -28,7 +28,6 @@ export async function requestLogger(c: Context, next: Next) {
     }
   })
 
-
   //DOCU: Response log
   await next();
 
