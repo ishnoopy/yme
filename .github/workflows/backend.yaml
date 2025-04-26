@@ -62,8 +62,11 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: docker-compose.production.yaml
-          target: ~/opt/yme/docker-compose.yaml
+          source: "docker-compose.production.yaml"
+          target: "/root/docker"
+          strip_components: 0
+          overwrite: true
+          debug: true
     
       - name: SSH and deploy to server
         uses: appleboy/ssh-action@v1.0.3
