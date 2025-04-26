@@ -1,4 +1,4 @@
-# YME (Your Application Name)
+# YME
 
 A full-stack application built with React (Vite) frontend and Node.js (Hono) backend, featuring modern technologies and best practices.
 
