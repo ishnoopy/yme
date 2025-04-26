@@ -63,8 +63,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "docker/docker-compose.yaml"
-          target: "/root/docker/yme/docker-compose.yaml"
-          strip_components: 0
+          target: "/root/docker/yme/"
+          strip_components: 2
           overwrite: true
           debug: true
     
