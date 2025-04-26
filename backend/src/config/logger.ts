@@ -56,7 +56,6 @@ function getTransportConfig(): pino.TransportMultiOptions {
           }
         ]
       };
-    
     default:
       return {
         targets: [
