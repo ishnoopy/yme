@@ -75,7 +75,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/opt/yme
+            cd docker/yme
             docker compose pull
             docker rmi $(docker images -f "dangling=true" -q)
             docker compose up -d
