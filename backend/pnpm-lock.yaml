@@ -19,7 +19,7 @@ importers:
         version: 0.5.1(hono@4.7.5)
       '@hono/valibot-validator':
         specifier: ^0.5.2
-        version: 0.5.2(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3))
+        version: 0.5.2(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3))
       '@prisma/client':
         specifier: ^6.6.0
         version: 6.6.0(prisma@6.6.0(typescript@5.8.3))(typescript@5.8.3)
@@ -28,7 +28,7 @@ importers:
         version: 0.8.0(hono@4.7.5)
       '@valibot/to-json-schema':
         specifier: ^1.0.0
-        version: 1.0.0(valibot@1.0.0(typescript@5.8.3))
+        version: 1.0.0(valibot@1.2.0(typescript@5.8.3))
       argon2:
         specifier: ^0.41.1
         version: 0.41.1
@@ -40,7 +40,7 @@ importers:
         version: 4.7.5
       hono-openapi:
         specifier: ^0.4.6
-        version: 0.4.6(@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3)))(@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.8.3)))(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3))(zod@3.24.2)
+        version: 0.4.6(@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3)))(@valibot/to-json-schema@1.0.0(valibot@1.2.0(typescript@5.8.3)))(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3))(zod@3.24.2)
       http-status-codes:
         specifier: ^2.3.0
         version: 2.3.0
@@ -63,8 +63,8 @@ importers:
         specifier: ^4.7.0
         version: 4.7.0
       valibot:
-        specifier: ^1.0.0
-        version: 1.0.0(typescript@5.8.3)
+        specifier: ^1.2.0
+        version: 1.2.0(typescript@5.8.3)
     devDependencies:
       '@types/jsonwebtoken':
         specifier: ^9.0.9
@@ -909,8 +909,8 @@ packages:
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
-  valibot@1.0.0:
-    resolution: {integrity: sha512-1Hc0ihzWxBar6NGeZv7fPLY0QuxFMyxwYR2sF1Blu7Wq7EnremwY2W02tit2ij2VJT8HcSkHAQqmFfl77f73Yw==}
+  valibot@1.2.0:
+    resolution: {integrity: sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -1054,10 +1054,10 @@ snapshots:
     dependencies:
       hono: 4.7.5
 
-  '@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3))':
+  '@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3))':
     dependencies:
       hono: 4.7.5
-      valibot: 1.0.0(typescript@5.8.3)
+      valibot: 1.2.0(typescript@5.8.3)
 
   '@jridgewell/resolve-uri@3.1.2': {}
 
@@ -1192,9 +1192,9 @@ snapshots:
       hookable: 5.5.3
       zhead: 2.2.4
 
-  '@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.8.3))':
+  '@valibot/to-json-schema@1.0.0(valibot@1.2.0(typescript@5.8.3))':
     dependencies:
-      valibot: 1.0.0(typescript@5.8.3)
+      valibot: 1.2.0(typescript@5.8.3)
 
   acorn-walk@8.3.4:
     dependencies:
@@ -1367,14 +1367,14 @@ snapshots:
 
   help-me@5.0.0: {}
 
-  hono-openapi@0.4.6(@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3)))(@valibot/to-json-schema@1.0.0(valibot@1.0.0(typescript@5.8.3)))(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3))(zod@3.24.2):
+  hono-openapi@0.4.6(@hono/valibot-validator@0.5.2(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3)))(@valibot/to-json-schema@1.0.0(valibot@1.2.0(typescript@5.8.3)))(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3))(zod@3.24.2):
     dependencies:
       json-schema-walker: 2.0.0
     optionalDependencies:
-      '@hono/valibot-validator': 0.5.2(hono@4.7.5)(valibot@1.0.0(typescript@5.8.3))
-      '@valibot/to-json-schema': 1.0.0(valibot@1.0.0(typescript@5.8.3))
+      '@hono/valibot-validator': 0.5.2(hono@4.7.5)(valibot@1.2.0(typescript@5.8.3))
+      '@valibot/to-json-schema': 1.0.0(valibot@1.2.0(typescript@5.8.3))
       hono: 4.7.5
-      valibot: 1.0.0(typescript@5.8.3)
+      valibot: 1.2.0(typescript@5.8.3)
       zod: 3.24.2
 
   hono@4.7.5: {}
@@ -1646,7 +1646,7 @@ snapshots:
 
   v8-compile-cache-lib@3.0.1: {}
 
-  valibot@1.0.0(typescript@5.8.3):
+  valibot@1.2.0(typescript@5.8.3):
     optionalDependencies:
       typescript: 5.8.3
 
